@@ -7,32 +7,63 @@ import { ToDo } from "./todo";
 //create your first component
 export function Home() {
 	const [newTodo, setNewTodo] = useState();
-	const [toDoList, setToDoList] = useState([1, 2, 3, 4, 5]);
+	const [toDoList, setToDoList] = useState([]);
+
+	// useEffect(() => {
+	// 	fetch("https://assets.breatheco.de/apis/fake/todos/user/smoure", {
+	// 		method: "GET"
+	// 	})
+	// 		.then(resp => resp.json())
+	// 		.then(data => {
+	// 			console.log(data);
+	// 			setNewTodo(data);
+	// 		});
+	// }, []);
 
 	return (
 		<>
 			<div className="container">
-				<input
-					value={newTodo}
-					className="form-control form-control-lg col-md-6"
-					type="text"
-					placeholder="Need to"
-					onChange={e => setNewTodo(e.target.value)}
-					onKeyPress={e => {
-						if (e.key == "Enter") {
-							setToDoList(toDoList.concat(newTodo));
-							setNewTodo("this to something else");
-						}
-					}}
-				/>
-				<button type="button" className="btn btn-info">
-					{"+"}
-				</button>
+				<div className="d-flex justify-content-center">
+					<input
+						value={newTodo}
+						className="form-control form-control-lg col-md-6"
+						type="text"
+						placeholder="Need to"
+						onChange={e => setNewTodo(e.target.value)}
+						onKeyPress={event => {
+							if (event.key == "Enter") {
+								setToDoList(toDoList.concat(newTodo));
+								setNewTodo("");
+							}
+						}}
+					/>
+					<button type="button" className="btn btn-info">
+						{"+"}
+					</button>
+				</div>
 				<div className="">
 					{toDoList.map((item, index) => {
 						return (
-							<div key={index}>
-								<ToDo todo={item} />
+							<div
+								key={index}
+								className="container d-flex justify-content-center p-2">
+								<button
+									className="btn btn-danger"
+									onClick={() => {
+										setToDoList(
+											toDoList.filter(
+												(e, i) => index !== i
+											)
+										);
+									}}>
+									X
+								</button>
+
+								<div
+									id="todo"
+									className=" lg col-md-6 rounded border">
+									{item}
+								</div>
 							</div>
 						);
 					})}
@@ -44,8 +75,13 @@ export function Home() {
 
 // const [list, setList] = useState(arr);
 // const [header, setHeader] = useState("Testing the state of the component");
-
+//<ToDo todo=
 //<Navbar />
+//<div >
+// 	{" "}
+// 	{item}
+// </div>
+//
 // <div className="text-center mt-5">
 // 	<h1>{header}</h1>
 // 	<p>
