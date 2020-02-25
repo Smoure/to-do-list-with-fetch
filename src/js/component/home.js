@@ -9,16 +9,35 @@ export function Home() {
 	const [newTodo, setNewTodo] = useState();
 	const [toDoList, setToDoList] = useState([]);
 
-	// useEffect(() => {
-	// 	fetch("https://assets.breatheco.de/apis/fake/todos/user/smoure", {
-	// 		method: "GET"
-	// 	})
-	// 		.then(resp => resp.json())
-	// 		.then(data => {
-	// 			console.log(data);
-	// 			setNewTodo(data);
-	// 		});
-	// }, []);
+    function getTodo() {
+        fetch("https://assets.breatheco.de/apis/fake/todos/user/smoure", {
+            method: "GET"
+        })
+            .then(resp => resp.json())
+            .then(data => {
+                console.log('getTodo', data);
+                setNewTodo(data);
+            });
+    }
+
+    function saveTodo(listToSave) {
+        fetch("https://assets.breatheco.de/apis/fake/todos/user/smoure", {
+            method: "PUT",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(listToSave),
+        })
+            .then(resp => resp.json())
+            .then(data => {
+                console.log('saveTodo', data);
+                getTodo();
+            });
+    }
+
+	useEffect(() => {
+        getTodo();
+	}, []);
 
 	return (
 		<>
